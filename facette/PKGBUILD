@@ -1,0 +1,48 @@
+# Maintainer: ushi <ushi+arch@honkgong.info>
+pkgname=facette
+pkgver=0.2.3
+pkgrel=1
+epoch=
+pkgdesc="Time series data visualization and graphing software"
+arch=('i686' 'x86_64')
+url="https://facette.io/"
+license=('BSD')
+depends=('rrdtool')
+makedepends=('pkg-config' 'go' 'nodejs' 'pandoc-static')
+backup=('etc/facette/facette.json')
+install=facette.install
+
+source=(
+  "https://github.com/facette/facette/archive/${pkgver}.tar.gz"
+  "${pkgname}.conf"
+  "${pkgname}.install"
+  "${pkgname}.service"
+)
+
+sha256sums=(
+  '4cb283ce751453571820722ce2469878ffe38a63a6061ac305eedb3e43d58406'
+  '3502151e3cd7f5a49d4eedd6313fb28b987905e1fe6bd52359cfda8ddc0960b6'
+  '2e309d73fb32dbf008d9b1757a1beaecc57984e1f605e3a3a2b9a295c919bf5d'
+  '20e7ae8a015cd9999aaabb16143653192ba426e9b910bcb5c6fb557301dcb1ce'
+)
+
+build() {
+	cd "${pkgname}-${pkgver}"
+	make
+}
+
+package() {
+	cd "${pkgname}-${pkgver}"
+	make PREFIX="$pkgdir/usr" install
+
+  # Replace /usr/local with /usr in config file
+  sed -i 's#/usr/local#/usr#g' "docs/examples/facette.json"
+
+  # Install config and systemd
+  install -D -m644 "docs/examples/facette.json"             "${pkgdir}/etc/facette/facette.json"
+  install -D -m644 "docs/examples/providers/collectd.json"  "${pkgdir}/etc/facette/providers/collectd.json"
+  install -D -m644 "docs/examples/providers/graphite.json"  "${pkgdir}/etc/facette/providers/graphite.json"
+  install -D -m644 "docs/examples/providers/influxdb.json"  "${pkgdir}/etc/facette/providers/influxdb.json"
+  install -D -m644 "${srcdir}/facette.service"              "${pkgdir}/usr/lib/systemd/system/facette.service"
+  install -D -m644 "${srcdir}/facette.conf"                 "${pkgdir}/usr/lib/tmpfiles.d/facette.conf"
+}
