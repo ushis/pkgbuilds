@@ -1,0 +1,123 @@
+# Maintainer: ushi <ushi+arch@honkgong.info>
+# Contributor: Sergej Pupykin <pupykin.s+arch@gmail.com>
+# Contributor: Bartłomiej Piotrowski <barthalion@gmal.com>
+# Contributor: Miroslaw Szot <mss@czlug.icis.pcz.pl>
+
+_cfgdir=/etc/nginx
+_tmpdir=/var/tmp/nginx
+
+_echoname='echo-nginx-module'
+_echover=0.57
+
+_moreheadersname='headers-more-nginx-module'
+_moreheadersver=0.25
+
+pkgname=nginx-ushi
+pkgver=1.7.11
+pkgrel=1
+pkgdesc="lightweight HTTP server and IMAP/POP3 proxy server"
+arch=('i686' 'x86_64')
+depends=('pcre' 'zlib' 'openssl')
+url="http://nginx.org"
+license=('custom')
+provides=('nginx')
+conflicts=('nginx')
+
+backup=(
+  "${_cfgdir:1}/fastcgi.conf"
+  "${_cfgdir:1}/fastcgi_params"
+  "${_cfgdir:1}/koi-win"
+  "${_cfgdir:1}/koi-utf"
+  "${_cfgdir:1}/mime.types"
+  "${_cfgdir:1}/nginx.conf"
+  "${_cfgdir:1}/scgi_params"
+  "${_cfgdir:1}/uwsgi_params"
+  "${_cfgdir:1}/win-utf"
+  'etc/logrotate.d/nginx'
+)
+
+source=(
+  "http://nginx.org/download/nginx-${pkgver}.tar.gz"
+  "https://github.com/agentzh/${_echoname}/archive/v${_echover}.tar.gz"
+  "https://github.com/openresty/${_moreheadersname}/archive/v${_moreheadersver}.tar.gz"
+  'logrotate'
+  'service'
+)
+
+sha256sums=(
+  'dad9d740210e638bfd480536910083ed13f04c04775eedf877984e1c61a69695'
+  '8467237ca0fae74ca7a32fbd34fc6044df307098415d48068214c9c235695a07'
+  '1473f96f59dcec9d83ce65d691559993c1f80da8c0a4c0c0a30dae9f969eeabf'
+  'f88f25ce955b822099f7446c2751de2251feaa6a58e1fb5ec40678801b285e3b'
+  '05fdc0c0483410944b988d7f4beabb00bec4a44a41bd13ebc9b78585da7d3f9b'
+)
+
+build() {
+  cd "${srcdir}/nginx-${pkgver}"
+
+  ./configure                                                       \
+    --prefix="${_cfgdir}"                                           \
+    --conf-path="${_cfgdir}/nginx.conf"                             \
+    --sbin-path='/usr/bin/nginx'                                    \
+    --pid-path='/var/run/nginx.pid'                                 \
+    --lock-path='/var/lock/nginx.lock'                              \
+    --user='http'                                                   \
+    --group='http'                                                  \
+    --http-log-path='/var/log/nginx/access.log'                     \
+    --error-log-path='/var/log/nginx/error.log'                     \
+    --http-client-body-temp-path="${_tmpdir}/client-body"           \
+    --http-proxy-temp-path="${_tmpdir}/proxy"                       \
+    --http-fastcgi-temp-path="${_tmpdir}/fastcgi"                   \
+    --http-scgi-temp-path="${_tmpdir}/scgi"                         \
+    --http-uwsgi-temp-path="${_tmpdir}/uwsgi"                       \
+    --with-imap                                                     \
+    --with-imap_ssl_module                                          \
+    --with-ipv6                                                     \
+    --with-pcre-jit                                                 \
+    --with-file-aio                                                 \
+    --with-http_dav_module                                          \
+    --with-http_gzip_static_module                                  \
+    --with-http_realip_module                                       \
+    --with-http_ssl_module                                          \
+    --with-http_stub_status_module                                  \
+    --with-http_spdy_module                                         \
+    --with-http_mp4_module                                          \
+    --with-http_realip_module                                       \
+    --add-module="${srcdir}/${_echoname}-${_echover}"               \
+    --add-module="${srcdir}/${_moreheadersname}-${_moreheadersver}" \
+    #--with-http_addition_module                                     \
+    #--with-http_xslt_module                                         \
+    #--with-http_image_filter_module                                 \
+    #--with-http_geoip_module                                        \
+    #--with-http_sub_module                                          \
+    #--with-http_flv_module                                          \
+    #--with-http_random_index_module                                 \
+    #--with-http_secure_link_module                                  \
+    #--with-http_degradation_module                                  \
+    #--with-http_perl_module                                         \
+
+  make
+}
+
+package() {
+  cd "${srcdir}/nginx-${pkgver}"
+  make DESTDIR="${pkgdir}" install
+
+  sed -e 's|\<user\s\+\w\+;|user html;|g' -i "${pkgdir}/etc/nginx/nginx.conf"
+
+  rm "${pkgdir}"/etc/nginx/*.default
+
+  install -d "${pkgdir}/${_tmpdir}"
+  install -dm0700 "${pkgdir}/${_tmpdir}/proxy"
+
+  chmod 750 "${pkgdir}/var/log/nginx"
+  chown http:log "${pkgdir}/var/log/nginx"
+
+  install -d "${pkgdir}/usr/share/nginx"
+  mv "${pkgdir}/etc/nginx/html/" "${pkgdir}/usr/share/nginx"
+
+  install -Dm0644 "${srcdir}/logrotate" "${pkgdir}/etc/logrotate.d/nginx"
+  install -Dm0644 "${srcdir}/service" "${pkgdir}/usr/lib/systemd/system/nginx.service"
+  install -Dm0644 "LICENSE" "${pkgdir}/usr/share/licenses/nginx/LICENSE"
+  rm -rf "${pkgdir}/var/run"
+}
