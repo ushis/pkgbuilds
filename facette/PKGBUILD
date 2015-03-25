@@ -1,7 +1,7 @@
 # Maintainer: ushi <ushi+arch@honkgong.info>
 pkgname=facette
 pkgver=0.2.3
-pkgrel=2
+pkgrel=3
 epoch=
 pkgdesc="Time series data visualization and graphing software"
 arch=('i686' 'x86_64')
@@ -22,7 +22,7 @@ source=(
 sha256sums=(
   '4cb283ce751453571820722ce2469878ffe38a63a6061ac305eedb3e43d58406'
   '3502151e3cd7f5a49d4eedd6313fb28b987905e1fe6bd52359cfda8ddc0960b6'
-  '2e309d73fb32dbf008d9b1757a1beaecc57984e1f605e3a3a2b9a295c919bf5d'
+  '6710ac12d676da1374bb522b36dcc79122624c7e342832377d3f358b5c65a3ce'
   '996246e98468a2848ef1c605ab49c569dc057299f847e166422595c5deda5b6f'
 )
 

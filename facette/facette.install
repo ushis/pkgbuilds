@@ -1,18 +1,12 @@
 post_install() {
-  if [ ! -d '/var/log/facette' ]; then
-    mkdir -p '/var/log/facette'
-  fi
   if ! getent group facette >/dev/null; then
     groupadd -g 901 facette
   fi
   if ! getent passwd facette >/dev/null; then
     useradd -u 901 -g facette -d /var/lib/facette -m -s /usr/bin/nologin facette
   fi
-
   systemd-tmpfiles --create facette.conf
-
   chown -R facette:facette /etc/facette
-  chown -R facette:log     /var/log/facette
 }
 
 post_upgrade() {
