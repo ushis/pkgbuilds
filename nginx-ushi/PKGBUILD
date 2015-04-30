@@ -10,13 +10,13 @@ _echoname='echo-nginx-module'
 _echover=0.57
 
 _moreheadersname='headers-more-nginx-module'
-_moreheadersver=0.25
+_moreheadersver=0.26
 
 _authpamname='ngx_http_auth_pam_module'
 _authpamver=1.4
 
 pkgname=nginx-ushi
-pkgver=1.7.12
+pkgver=1.9.0
 pkgrel=1
 pkgdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 arch=('i686' 'x86_64')
@@ -49,9 +49,9 @@ source=(
 )
 
 sha256sums=(
-  '22d1f0b6d064e125b01aeb2c6171682559d2488e1b102fc48ec564aa36e66897'
+  'e12aa1d5b701edde880ebcc7be47ca171c3fbeed8fa7c8c62054a6f19d27f248'
   '8467237ca0fae74ca7a32fbd34fc6044df307098415d48068214c9c235695a07'
-  '1473f96f59dcec9d83ce65d691559993c1f80da8c0a4c0c0a30dae9f969eeabf'
+  'd6bdc51f9e778a3b23e41a51cae542c1467a1e5e55c1329a7ffc454be084fb6f'
   '095742c5bcb86f2431e215db785bdeb238d594f085a0ac00d16125876a157409'
   'f88f25ce955b822099f7446c2751de2251feaa6a58e1fb5ec40678801b285e3b'
   '05fdc0c0483410944b988d7f4beabb00bec4a44a41bd13ebc9b78585da7d3f9b'
