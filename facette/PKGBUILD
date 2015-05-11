@@ -1,14 +1,14 @@
 # Maintainer: ushi <ushi+arch@honkgong.info>
 pkgname=facette
 pkgver=0.2.3
-pkgrel=3
+pkgrel=4
 epoch=
 pkgdesc="Time series data visualization and graphing software"
 arch=('i686' 'x86_64')
 url="https://facette.io/"
 license=('BSD')
 depends=('rrdtool')
-makedepends=('pkg-config' 'go' 'nodejs' 'pandoc-static')
+makedepends=('pkg-config' 'go' 'nodejs' 'npm' 'pandoc-static')
 backup=('etc/facette/facette.json')
 install=facette.install
 
