@@ -6,18 +6,12 @@
 _cfgdir=/etc/nginx
 _tmpdir=/var/tmp/nginx
 
-_echoname='echo-nginx-module'
-_echover=0.57
-
-_moreheadersname='headers-more-nginx-module'
-_moreheadersver=0.26
-
 _authpamname='ngx_http_auth_pam_module'
 _authpamver=1.4
 
 pkgname=nginx-ushi
 pkgver=1.9.1
-pkgrel=1
+pkgrel=2
 pkgdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 arch=('i686' 'x86_64')
 depends=('pcre' 'zlib' 'openssl')
@@ -41,8 +35,6 @@ backup=(
 
 source=(
   "http://nginx.org/download/nginx-${pkgver}.tar.gz"
-  "https://github.com/agentzh/${_echoname}/archive/v${_echover}.tar.gz"
-  "https://github.com/openresty/${_moreheadersname}/archive/v${_moreheadersver}.tar.gz"
   "https://github.com/stogh/${_authpamname}/archive/v${_authpamver}.tar.gz"
   'logrotate'
   'service'
@@ -50,8 +42,6 @@ source=(
 
 sha256sums=(
   '09f555fae694c0944f172b575ad239f56d40d14559d98e843de0a690f38c1dad'
-  '8467237ca0fae74ca7a32fbd34fc6044df307098415d48068214c9c235695a07'
-  'd6bdc51f9e778a3b23e41a51cae542c1467a1e5e55c1329a7ffc454be084fb6f'
   '095742c5bcb86f2431e215db785bdeb238d594f085a0ac00d16125876a157409'
   'f88f25ce955b822099f7446c2751de2251feaa6a58e1fb5ec40678801b285e3b'
   '05fdc0c0483410944b988d7f4beabb00bec4a44a41bd13ebc9b78585da7d3f9b'
@@ -88,8 +78,6 @@ build() {
     --with-http_spdy_module                                         \
     --with-http_mp4_module                                          \
     --with-http_realip_module                                       \
-    --add-module="${srcdir}/${_echoname}-${_echover}"               \
-    --add-module="${srcdir}/${_moreheadersname}-${_moreheadersver}" \
     --add-module="${srcdir}/${_authpamname}-${_authpamver}"         \
     #--with-http_addition_module                                     \
     #--with-http_xslt_module                                         \
