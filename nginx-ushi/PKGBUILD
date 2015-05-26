@@ -16,7 +16,7 @@ _authpamname='ngx_http_auth_pam_module'
 _authpamver=1.4
 
 pkgname=nginx-ushi
-pkgver=1.9.0
+pkgver=1.9.1
 pkgrel=1
 pkgdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 arch=('i686' 'x86_64')
@@ -49,7 +49,7 @@ source=(
 )
 
 sha256sums=(
-  'e12aa1d5b701edde880ebcc7be47ca171c3fbeed8fa7c8c62054a6f19d27f248'
+  '09f555fae694c0944f172b575ad239f56d40d14559d98e843de0a690f38c1dad'
   '8467237ca0fae74ca7a32fbd34fc6044df307098415d48068214c9c235695a07'
   'd6bdc51f9e778a3b23e41a51cae542c1467a1e5e55c1329a7ffc454be084fb6f'
   '095742c5bcb86f2431e215db785bdeb238d594f085a0ac00d16125876a157409'
