@@ -10,7 +10,7 @@ _authpamname='ngx_http_auth_pam_module'
 _authpamver=1.4
 
 pkgname=nginx-ushi
-pkgver=1.9.1
+pkgver=1.9.2
 pkgrel=2
 pkgdesc="lightweight HTTP server and IMAP/POP3 proxy server"
 arch=('i686' 'x86_64')
@@ -41,7 +41,7 @@ source=(
 )
 
 sha256sums=(
-  '09f555fae694c0944f172b575ad239f56d40d14559d98e843de0a690f38c1dad'
+  '80b6425be14a005c8cb15115f3c775f4bc06bf798aa1affaee84ed9cf641ed78'
   '095742c5bcb86f2431e215db785bdeb238d594f085a0ac00d16125876a157409'
   'f88f25ce955b822099f7446c2751de2251feaa6a58e1fb5ec40678801b285e3b'
   '05fdc0c0483410944b988d7f4beabb00bec4a44a41bd13ebc9b78585da7d3f9b'
@@ -70,6 +70,7 @@ build() {
     --with-ipv6                                                     \
     --with-pcre-jit                                                 \
     --with-file-aio                                                 \
+    --with-threads                                                  \
     --with-http_dav_module                                          \
     --with-http_gzip_static_module                                  \
     --with-http_realip_module                                       \
@@ -77,7 +78,6 @@ build() {
     --with-http_stub_status_module                                  \
     --with-http_spdy_module                                         \
     --with-http_mp4_module                                          \
-    --with-http_realip_module                                       \
     --add-module="${srcdir}/${_authpamname}-${_authpamver}"         \
     #--with-http_addition_module                                     \
     #--with-http_xslt_module                                         \
