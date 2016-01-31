@@ -4,7 +4,7 @@
 # Maintainer: ushi <ushi+arch@honkgong.info>
 
 pkgname=jabberd2
-pkgver=2.3.4
+pkgver=2.3.5
 pkgrel=1
 pkgdesc='Scalable, architecturally sound, and extensible XMPP server'
 arch=('i686' 'x86_64' 'armv6h')
@@ -22,7 +22,7 @@ source=(
 )
 
 sha256sums=(
-  '9a17fae72460dd4454814edb48a7a1af7071cf331dabc2b0b6029661a36bb671'
+  'f56943f429e0d5d3b59ac365c075ffe15924bf987447a43ad17aa4d2b6fb5b77'
   '89809dbf3f42f9df4690c3f98c1c74174f53774859d88374947b4123552c2dc8'
 )
 
