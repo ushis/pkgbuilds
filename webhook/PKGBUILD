@@ -32,8 +32,8 @@ pkgver() {
 
 build() {
   cd webhook
-  go get -v -d ./...
-  go build .
+  GOPATH="${srcdir}" go get -v -d ./...
+  GOPATH="${srcdir}" go build .
 }
 
 package() {
