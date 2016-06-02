@@ -1,0 +1,12 @@
+[Unit]
+Description=Webhook Server
+
+[Service]
+Type=simple
+User=webhook
+Group=webhook
+ExecStart=/usr/bin/webhook -listen=/run/webhook/webhook.sock -hook-file=/etc/webhook/hooks.yml
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

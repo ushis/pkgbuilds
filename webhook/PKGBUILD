@@ -1,0 +1,46 @@
+# Maintainer: ushi <ushi@honkgong.info>
+pkgname='webhook-git'
+pkgver=0.0.0
+pkgrel=1
+pkgdesc='Webhook Server'
+arch=('x86_64' 'i686' 'armv6h')
+url='https://github.com/ushis/webhook'
+license=('MIT')
+conflicts=('webhook')
+provides=('webhook')
+makedepends=('go')
+options=(!strip)
+backup=('etc/webhook/hooks.yml')
+install=webhook.install
+
+source=(
+  'webhook::git+https://github.com/ushis/webhook.git#branch=master'
+  'webhook.service'
+  'webhook.conf'
+)
+
+sha256sums=(
+  'SKIP'
+  '5bb01874bfd29921e588bbb72713b7fc044897dda97c60c75269072ae8a3a17d'
+  '77ce631c345b9962ef0ea59261589278a049026853a252ab7c2ffa62b3f2114a'
+)
+
+pkgver() {
+  cd webhook
+  echo "$(git rev-list --count master).$(git rev-parse --short master)"
+}
+
+build() {
+  cd webhook
+  go get -v -d ./...
+  go build .
+}
+
+package() {
+  install -Dm0755 webhook/webhook   "${pkgdir}/usr/bin/webhook"
+  install -Dm0640 webhook/hooks.yml "${pkgdir}/etc/webhook/hooks.yml"
+  install -Dm0644 webhook.conf      "${pkgdir}/usr/lib/tmpfiles.d/webhook.conf"
+  install -Dm0644 webhook.service   "${pkgdir}/usr/lib/systemd/system/webhook.service"
+}
+
+# vim:set ts=2 sw=2 et:

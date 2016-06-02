@@ -1,0 +1,20 @@
+post_install() {
+  if ! getent group webhook >/dev/null; then
+    groupadd webhook
+  fi
+
+  if ! getent passwd webhook >/dev/null; then
+    useradd -r -s /usr/bin/nologin -d / -g webhook webhook
+    passwd -l webhook
+  fi
+}
+
+post_remove() {
+  if getent passwd webhook; then
+    userdel webhook
+  fi
+
+  if getent group webhook; then
+    groupdel webhook
+  fi
+}
